@@ -86,7 +86,6 @@
                     }
                 });
             }, 0)
-
         },
         push: function (items) {
             if (checkFormat(items, false)) {
@@ -113,9 +112,6 @@
                 var plugin = $.data(this, key);
                 return plugin[options].apply(plugin, [].slice.call(args, 1));
             }
-
-            console.log($.data(this, key));
-
 
             if (!$.data(this, key)) {
                 $.data(this, key, new Plugin(this, options));
@@ -144,5 +140,4 @@
             return item.value > carry ? item.value : carry;
         }, -Infinity)
     }
-
 })(jQuery);
