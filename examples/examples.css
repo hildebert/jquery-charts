@@ -1,0 +1,65 @@
+HTML, BODY {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+BODY {
+    font-family: Arial;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+H2 {
+    margin-top: 0;
+}
+
+.row {
+    padding: 15px 15px 0 15px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.container {
+    border: 1px solid;
+    overflow: hidden;
+    margin: 0 15px 15px 0;
+    float: left;
+    font-size: 12px;
+    height: 150px;
+}
+
+#ex1 {
+    width: 350px;
+}
+
+#ex2 {
+    width: 400px;
+}
+
+#ex3 {
+    width: 200px;
+}
+
+#ex4 {
+    width: 250px;
+}
+
+#dynamic {
+    width: 100%;
+}
+
+#update {
+    width: 100%;
+}
+
+.dynamic {
+    width: 250px;
+}
+
+#destroy {
+    width: 100%;
+}

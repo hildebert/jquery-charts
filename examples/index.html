@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery Charts examples</title>
+    <link href="examples.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+    <script src="../jquery.charts.js"></script>
+</head>
+<body>
+<div class="row">
+    <h2>Simple example</h2>
+    <div id="ex1" class="container"></div>
+    <div id="ex2" class="container"></div>
+    <script>
+        var data = [
+            { date: '2016-09-01', value: 50 },
+            { date: '2016-09-02', value: 60 },
+            { date: '2016-09-03', value: 40 },
+            { date: '2016-09-04', value: 45 },
+            { date: '2016-09-05', value: 70 },
+            { date: '2016-09-06', value: 80 },
+            { date: '2016-09-07', value: 75 },
+            { date: '2016-09-08', value: 65 },
+            { date: '2016-09-09', value: 70 },
+            { date: '2016-09-10', value: 35 },
+            { date: '2016-09-11', value: 40 },
+            { date: '2016-09-12', value: 45 },
+            { date: '2016-09-13', value: 50 },
+            { date: '2016-09-14', value: 55 },
+            { date: '2016-09-15', value: 50 },
+            { date: '2016-09-16', value: 60 }
+        ];
+
+        $('#ex1').chart({ items: data });
+
+        $('#ex2').chart({
+            items: data.slice().reverse(),
+            gradientTop: 'rgba(224, 255, 116, 1)',
+            gradientBottom: 'rgba(116, 191, 255, 1)',
+            lineTension: false,
+            borderWidth: 1,
+            borderColor: '#ff74fd',
+            pointBackgroundColor: '#ff74fd',
+            pointRadius: 3
+        });
+    </script>
+</div>
+<div class="row">
+    <h2>Adding elements</h2>
+    <div id="dynamic" class="container"></div>
+    <button id="dynamic-add">Add random value</button>
+    <button id="dynamic-add-5">Add 5 values</button>
+    <button id="dynamic-add-10">Add 10 values</button>
+    <script>
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function ymd(date) {
+            return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+        }
+
+        var date = new Date(2016, 9, 1);
+
+        $('#dynamic').chart();
+
+        function add(num) {
+            num = num || 1;
+
+            return function () {
+                var data = [];
+
+                for (var i = 0; i < num; i++) {
+                    date.setDate(date.getDate() + 1);
+                    data.push({ date: ymd(date), value: getRandomInt(10, 90) });
+                }
+
+                $('#dynamic').chart('push', data);
+            };
+        }
+
+        $('#dynamic-add').click(add(1));
+        $('#dynamic-add-5').click(add(5));
+        $('#dynamic-add-10').click(add(10));
+    </script>
+</div>
+<div class="row">
+    <h2>Update all</h2>
+    <div id="update" class="container"></div>
+    <button id="update-do">Regenerate</button>
+    <script>
+        $('#update').chart();
+
+        $('#update-do').click(function () {
+            var quantity = getRandomInt(20, 30);
+            var data = [];
+            var date = new Date(2016, 9, 1);
+
+            for (var i = 0; i < quantity; i++) {
+                data.push({ date: ymd(date), value: getRandomInt(10, 90) });
+                date.setDate(date.getDate() + 1);
+            }
+
+            $('#update').chart('update', data);
+        }).click();
+    </script>
+</div>
+<div class="row">
+    <h2>Destroy</h2>
+    <div id="destroy" class="container"></div>
+    <button id="destroy-do">Destroy</button>
+    <button id="destroy-regenerate">Regenerate</button>
+    <script>
+        function generate4destroy() {
+            var date = new Date(2016, 9, 1);
+            var data = [];
+
+            for (var i = 0; i < 20; i++) {
+                date.setDate(date.getDate() + 1);
+                data.push({ date: ymd(date), value: getRandomInt(10, 90) });
+            }
+
+            $('#destroy').chart({ items: data });
+        }
+
+        generate4destroy();
+
+        $('#destroy-do').click(function () {
+            $('#destroy').chart('destroy');
+        });
+
+        $('#destroy-regenerate').click(generate4destroy);
+    </script>
+</div>
+<div class="row">
+    <h2>Dynamic</h2>
+    <div style="margin-bottom: 10px;">
+        <input id="number" value="10"> - number of blocks
+    </div>
+    <div style="margin-bottom: 10px;">
+        <input id="items" value="20"> - number of items
+    </div>
+    <button id="generate">Generate</button>
+    <div id="container" style="margin-top: 10px; min-height: 500px"></div>
+    <script>
+        $('#generate').click(function () {
+            $('#container').html('');
+
+            var blocks = Number($('#number').val());
+            if (isNaN(blocks)) blocks = 10;
+
+            var items = Number($('#items').val());
+            if (isNaN(items)) items = 20;
+
+            for (var i = 0; i < blocks; i++) {
+                setTimeout(function () {
+                    var el = $('<div class="container dynamic"></div>');
+                    $('#container').append(el);
+
+                    var data = [];
+                    var date = new Date(2016, 9, 1);
+
+                    for (var j = 0; j < items; j++) {
+                        data.push({ date: ymd(date), value: getRandomInt(10, 90) });
+                        date.setDate(date.getDate() + j);
+                    }
+
+                    el.chart({ items: data });
+                }, 0);
+            }
+
+            return false;
+        });
+    </script>
+</div>
+
+</body>
+</html>
